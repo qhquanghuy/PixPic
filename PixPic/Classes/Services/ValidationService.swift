@@ -16,8 +16,8 @@ class ValidationService {
 
             return
         }
-        if userName.characters.count < Constants.ValidationErrors.minUserName ||
-            userName.characters.count > Constants.ValidationErrors.maxUserName {
+        if userName.count < Constants.ValidationErrors.minUserName ||
+            userName.count > Constants.ValidationErrors.maxUserName {
                 AlertManager.sharedInstance.showSimpleAlert(Constants.ValidationErrors.wrongLenght)
                 completion(false)
 
@@ -25,7 +25,7 @@ class ValidationService {
         }
 
         let query = User.query()?.whereKey("username", equalTo: userName)
-        query?.getFirstObjectInBackgroundWithBlock { object, error in
+        query?.getFirstObjectInBackground { object, error in
             if object != nil {
                 AlertManager.sharedInstance.showSimpleAlert(Constants.ValidationErrors.alreadyExist)
                 completion(false)
@@ -36,7 +36,7 @@ class ValidationService {
     }
 
     fileprivate static func isUserNameContainsOnlyLetters(_ userName: String) -> Bool {
-        if userName.characters.first == Constants.ValidationErrors.whiteSpace {
+        if userName.first == Constants.ValidationErrors.whiteSpace {
             AlertManager.sharedInstance.showSimpleAlert(Constants.ValidationErrors.spaceInBegining)
 
             return false
@@ -48,7 +48,7 @@ class ValidationService {
             return false
         } else {
             var previousChar = Constants.ValidationErrors.whiteSpace as Character
-            for char in userName.characters {
+            for char in userName {
                 if previousChar == Constants.ValidationErrors.whiteSpace && char == Constants.ValidationErrors.whiteSpace {
                     AlertManager.sharedInstance.showSimpleAlert(Constants.ValidationErrors.twoConsecutiveSpaces)
 
@@ -56,7 +56,7 @@ class ValidationService {
                 }
                 previousChar = char
             }
-            if userName.characters.last == Constants.ValidationErrors.whiteSpace {
+            if userName.last == Constants.ValidationErrors.whiteSpace {
                 AlertManager.sharedInstance.showSimpleAlert(Constants.ValidationErrors.spaceInEnd)
 
                 return false

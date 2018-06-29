@@ -77,11 +77,11 @@ extension ProfilePresenter {
 
     func showMyProfileWithPost(_ postId: String) {
         let profileRouter = ProfileRouter(locator: locator)
-        if let currentViewController = currentViewController as? ProfileViewController, currentViewController.user == User.currentUser() {
-            currentViewController.setUserInfo(postId)
+        if let currentViewController = currentViewController as? ProfileViewController, currentViewController.user == User.current() {
+            currentViewController.setUserInfo(postId as AnyObject)
         } else if let appearanceController =
             currentViewController.navigationController as? AppearanceNavigationController {
-            profileRouter.execute(appearanceController, userInfo: postId)
+            profileRouter.execute(appearanceController, userInfo: postId as AnyObject)
         }
     }
 

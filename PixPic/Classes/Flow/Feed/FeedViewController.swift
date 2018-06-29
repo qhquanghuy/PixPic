@@ -100,7 +100,7 @@
     }
 
     fileprivate func setupToolBar() {
-        toolBar = FeedToolBar.loadFromNibNamed(String(FeedToolBar))
+        toolBar = FeedToolBar.loadFromNibNamed(String(describing:FeedToolBar.self))
         toolBar.didSelectPhoto = { [weak self] in
             self?.choosePhoto()
         }
@@ -109,7 +109,7 @@
 
     fileprivate func setupTableView() {
         tableView.delegate = self
-        tableView.registerNib(PostViewCell.cellNib, forCellReuseIdentifier: PostViewCell.id)
+        tableView.register(PostViewCell.cellNib, forCellReuseIdentifier: PostViewCell.id)
     }
 
     fileprivate func setupObserver() {
@@ -136,7 +136,7 @@
     }
 
     fileprivate func setupAdapter() {
-        tableView.dataSource = postAdapter as! UITableViewDataSource
+        tableView.dataSource = postAdapter as UITableViewDataSource
         postAdapter.delegate = self
 
         let postService: PostService = locator.getService()
@@ -202,7 +202,7 @@
     }
 
     fileprivate func updateCurrentUserInfoIfNeeded() {
-        if let currentUser = User.currentUser(), currentUser.facebookId == nil && !User.notAuthorized {
+        if let currentUser = User.current(), currentUser.facebookId == nil && !User.notAuthorized {
             let authenticationService: AuthenticationService = locator.getService()
             authenticationService.updateUserInfoViaFacebook(currentUser) { _, error in
                 if let error = error {
@@ -214,7 +214,7 @@
 
     // MARK: - IBActions
     @IBAction fileprivate func profileButtonTapped(_ sender: AnyObject) {
-        let currentUser = User.currentUser()
+        let currentUser = User.current()
 
         if User.notAuthorized {
             router.showAuthorization()
@@ -230,7 +230,7 @@
     // MARK: - UserInteractive
     fileprivate func setupLoadersCallback() {
         let postService: PostService = locator.getService()
-        tableView.addPullToRefreshWithActionHandler { [weak self] in
+        tableView.addPullToRefresh { [weak self] in
             guard let this = self else {
                 return
             }
@@ -240,7 +240,7 @@
 
                 return
             }
-            var timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Network.timeoutTimeInterval, repeats: false) {
+            var timeoutTimer = Timer.scheduledTimerWithTimeInterval(Constants.Network.timeoutTimeInterval, repeats: false) {
                 noConnection()
             }
 
@@ -253,7 +253,7 @@
                 timeoutTimer.invalidate()
                 timeoutTimer = nil
                 if let objects = objects {
-                    this.postAdapter.update(withPosts: objects, action: .Reload)
+                    this.postAdapter.update(withPosts: objects, action: .reload)
                     this.scrollToFirstRow()
                     AttributesCache.sharedCache.clear()
                 } else if let error = error {
@@ -262,7 +262,7 @@
                 this.tableView.pullToRefreshView.stopAnimating()
             }
         }
-        tableView.addInfiniteScrollingWithActionHandler { [weak self] in
+        tableView.addInfiniteScrolling { [weak self] in
             guard let this = self else {
                 return
             }
@@ -273,7 +273,7 @@
             }
             postService.loadPagedPosts(offset: offset) { objects, error in
                 if let objects = objects {
-                    this.postAdapter.update(withPosts: objects, action: .LoadMore)
+                    this.postAdapter.update(withPosts: objects, action: .loadMore)
                 } else if let error = error {
                     log.debug(error.localizedDescription)
                 }

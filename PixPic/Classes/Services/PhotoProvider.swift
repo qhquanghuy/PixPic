@@ -47,28 +47,28 @@ class PhotoProvider: NSObject, UINavigationControllerDelegate {
         )
         let takePhotoAction = UIAlertAction.appAlertAction(
             title: takePhotoOption,
-            style: .Default
+            style: .default
         ) { _ in
             self.takePhoto()
             PushNotificationQueue.handleNotificationQueue()
         }
         let selectFromLibraryAction = UIAlertAction.appAlertAction(
             title: selectFromLibraryOption,
-            style: .Default
+            style: .default
         ) { _ in
             self.selectFromLibrary()
             PushNotificationQueue.handleNotificationQueue()
         }
         let importFromFacebookAction = UIAlertAction.appAlertAction(
             title: importFromFabookOption,
-            style: .Default
+            style: .default
         ) { _ in
             self.presentFacebookAlbumsList()
             PushNotificationQueue.handleNotificationQueue()
         }
         let cancelAction = UIAlertAction.appAlertAction(
             title: cancelOption,
-            style: .Cancel
+            style: .cancel
         ) { _ in
             PushNotificationQueue.handleNotificationQueue()
         }
@@ -105,7 +105,7 @@ class PhotoProvider: NSObject, UINavigationControllerDelegate {
         )
         let okAction = UIAlertAction.appAlertAction(
             title: okActionTitle,
-            style:.Default,
+            style:.default,
             handler: nil
         )
         alertViewController.addAction(okAction)
@@ -119,7 +119,7 @@ class PhotoProvider: NSObject, UINavigationControllerDelegate {
 
     fileprivate func presentFacebookAlbumsList() {
         let board = UIStoryboard(name: facebookFlow, bundle: nil)
-        let facebookViewController = board.instantiateViewControllerWithIdentifier(facebookAlbumsListViewControllerID)
+        let facebookViewController = board.instantiateViewController(withIdentifier: facebookAlbumsListViewControllerID)
             as! CSFFacebookAlbumsListViewController
         facebookViewController.successfulCropWithImageView = { [weak self] imageView in
             if let image = imageView?.image {
@@ -128,13 +128,13 @@ class PhotoProvider: NSObject, UINavigationControllerDelegate {
         }
 
         facebookViewController.fbAlbumsNeedsToDissmiss = { [weak self] in
-            self?.controller.navigationController?.popToRootViewControllerAnimated(true)
+            self?.controller.navigationController?.popToRootViewController(animated: true)
         }
         controller.navigationController?.pushViewController(facebookViewController, animated: true)
     }
 
     fileprivate func checkCameraAccessibility() {
-        let authorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch authorizationStatus {
         case .authorized:
             callCamera()
@@ -155,12 +155,12 @@ class PhotoProvider: NSObject, UINavigationControllerDelegate {
         )
         let cancelAction = UIAlertAction.appAlertAction(
             title: cancelActionTitle,
-            style: .Default,
+            style: .default,
             handler: nil
         )
         let allowCameraAction = UIAlertAction.appAlertAction(
             title: allowCameraActionTitle,
-            style: .Cancel
+            style: .cancel
         ) { _ in
             UIApplication.redirectToAppSettings()
         }
@@ -170,8 +170,8 @@ class PhotoProvider: NSObject, UINavigationControllerDelegate {
     }
 
     fileprivate func presentCameraAccessDialog() {
-        if AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).count > 0 {
-            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { [weak self] granted in
+        if AVCaptureDevice.devices(for: AVMediaType.video).count > 0 {
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { [weak self] granted in
                 DispatchQueue.main.async {
                     self?.checkCameraAccessibility()
                 }
@@ -200,8 +200,8 @@ extension PhotoProvider: UIImagePickerControllerDelegate {
         let imageCropperViewController = VPImageCropperViewController(image: image,
                                                                       cropFrame: cropSquare,
                                                                       limitScaleRatio: maxAllowedImageScale)
-        imageCropperViewController.delegate = self
-        imagePickerController.pushViewController(imageCropperViewController, animated: true)
+        imageCropperViewController?.delegate = self
+        imagePickerController.pushViewController(imageCropperViewController!, animated: true)
     }
 
 }

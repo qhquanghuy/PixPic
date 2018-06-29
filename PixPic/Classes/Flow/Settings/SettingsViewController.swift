@@ -62,8 +62,8 @@ final class SettingsViewController: BaseUIViewController, StoryboardInitiable {
         setupAvailableSettings()
         updateVersionLabel()
 
-        logInButton.setTitle(logInString, forState: .Normal)
-        logOutButton.setTitle(logOutString, forState: .Normal)
+        logInButton.setTitle(logInString, for: .normal)
+        logOutButton.setTitle(logOutString, for: .normal)
     }
 
     // MARK: - Setup methods
@@ -73,21 +73,24 @@ final class SettingsViewController: BaseUIViewController, StoryboardInitiable {
 
     // MARK: - Private methods
     fileprivate func setupAvailableSettings() {
-        settings[.Common] = [enableNotificationsSwitch]
-        for view in settings[.Common]! {
-            settingsStack.addArrangedSubview(view)
-        }
-        let currentUser = User.currentUser()
+        settings[.common] = [enableNotificationsSwitch]
+//        for view in settings[.common] {
+//            settingsStack.addArrangedSubview(view)
+//        }
+        settings[.common]?.forEach(settingsStack.addArrangedSubview)
+        let currentUser = User.current()
         let notAuthorized = User.notAuthorized
 
         if currentUser != nil && notAuthorized == false {
-            settings[.LoggedIn] = [followedPostsSwitch]
-            for view in settings[.LoggedIn]! {
-                settingsStack.addArrangedSubview(view)
-            }
+            settings[.loggedIn] = [followedPostsSwitch]
+
+//            for view in settings[.loggedIn] {
+//                settingsStack.addArrangedSubview(view)
+//            }
+            settings[.loggedIn]?.forEach(settingsStack.addArrangedSubview)
         }
-        logInButton.hidden = !notAuthorized
-        logOutButton.hidden = notAuthorized
+        logInButton.isHidden = !notAuthorized
+        logOutButton.isHidden = notAuthorized
 
     }
 
@@ -123,26 +126,26 @@ final class SettingsViewController: BaseUIViewController, StoryboardInitiable {
         let alertController = UIAlertController(
             title: nil,
             message: logoutMessage,
-            preferredStyle: .ActionSheet
+            preferredStyle: .actionSheet
         )
 
         let cancelAction = UIAlertAction.appAlertAction(
             title: cancelActionTitle,
-            style: .Cancel
+            style: .cancel
         ) { _ in
             PushNotificationQueue.handleNotificationQueue()
-            alertController.dismissViewControllerAnimated(true, completion: nil)
+            alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
 
         let okAction = UIAlertAction.appAlertAction(
             title: okActionTitle,
-            style: .Default
+            style: .default
         ) { _ in
             self.showlogOutAlert()
         }
         alertController.addAction(okAction)
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 
 }

@@ -15,23 +15,23 @@ typealias LoadingPostsCompletion = (_ posts: [Post]?, _ error: NSError?) -> Void
 class PostService {
 
     // MARK: - Public methods
-    func loadPosts(_ user: User? = nil, completion: LoadingPostsCompletion) {
+    func loadPosts(_ user: User? = nil, completion: @escaping LoadingPostsCompletion) {
         let query = Post.sortedQuery
-        query.cachePolicy = .NetworkElseCache
+        query.cachePolicy = .networkElseCache
         query.limit = Constants.DataSource.queryLimit
         loadPosts(user, query: query, completion: completion)
     }
 
-    func loadPagedPosts(_ user: User? = nil, offset: Int = 0, completion: LoadingPostsCompletion) {
+    func loadPagedPosts(_ user: User? = nil, offset: Int = 0, completion: @escaping LoadingPostsCompletion) {
         let query = Post.sortedQuery
-        query.cachePolicy = .NetworkElseCache
+        query.cachePolicy = .networkElseCache
         query.limit = Constants.DataSource.queryLimit
         query.skip = offset
         loadPosts(user, query: query, completion: completion)
     }
 
     func savePost(_ image: PFFile, comment: String? = nil) {
-        image.saveInBackgroundWithBlock({ succeeded, error in
+        image.saveInBackground({ succeeded, error in
             if succeeded {
                 log.debug("Saved!")
                 self.uploadPost(image, comment: comment)
@@ -43,22 +43,22 @@ class PostService {
         })
     }
 
-    func removePost(_ post: Post, completion: (Bool, NSError?) -> Void) {
-        post.deleteInBackgroundWithBlock(completion)
+    func removePost(_ post: Post, completion: @escaping (Bool, NSError?) -> Void) {
+        post.deleteInBackground(block: completion as? PFBooleanResultBlock)
     }
 
     // MARK: - Private methods
     fileprivate func uploadPost(_ image: PFFile, comment: String?) {
-        guard let user = User.currentUser() else {
+        guard let user = User.current() else {
             // Authentication service
             return
         }
         let post = Post(image: image, user: user, comment: comment)
-        post.saveInBackgroundWithBlock { succeeded, error in
+        post.saveInBackground { succeeded, error in
             if succeeded {
                 AlertManager.sharedInstance.showSimpleAlert(messageUploadSuccessful)
-                NSNotificationCenter.defaultCenter().postNotificationName(
-                    Constants.NotificationName.newPostIsUploaded,
+                NotificationCenter.default.post(
+                    NSNotification.Name(rawValue: Constants.NotificationName.newPostIsUploaded),
                     object: nil
                 )
             } else {
@@ -85,11 +85,11 @@ class PostService {
         } else if SettingsHelper.isShownOnlyFollowingUsersPosts && !User.notAuthorized {
             let followersQuery = PFQuery(className: Activity.parseClassName())
             followersQuery.cachePolicy = .cacheThenNetwork
-            followersQuery.whereKey(Constants.ActivityKey.fromUser, equalTo: User.currentUser()!)
+            followersQuery.whereKey(Constants.ActivityKey.fromUser, equalTo: User.current()!)
             followersQuery.whereKey(Constants.ActivityKey.type, equalTo: ActivityType.Follow.rawValue)
             followersQuery.includeKey(Constants.ActivityKey.toUser)
 
-            var arrayOfFollowers: [User] = [User.currentUser()!]
+            var arrayOfFollowers: [User] = [User.current()!]
             followersQuery.findObjectsInBackground { [weak self] activities, error in
                 if let error = error {
                     log.debug(error.localizedDescription)

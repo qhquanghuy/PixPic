@@ -30,7 +30,7 @@ extension SettingsRouter: Router {
         settingsController.router = self
         settingsController.setLocator(locator)
         currentViewController = settingsController
-        context.showViewController(settingsController, sender: self)
+        context.show(settingsController, sender: self)
     }
 
 }

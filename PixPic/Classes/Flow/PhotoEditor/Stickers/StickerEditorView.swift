@@ -50,8 +50,8 @@ class StickerEditorView: UIView {
                 self.borderView.alpha = controlAlpha
             })
         } else {
-            resizingControl.hidden = !state
-            deleteControl.hidden = !state
+            resizingControl.isHidden = !state
+            deleteControl.isHidden = !state
             borderView.isHidden = !state
         }
     }

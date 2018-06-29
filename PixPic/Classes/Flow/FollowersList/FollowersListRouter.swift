@@ -15,7 +15,7 @@ class FollowersListRouter: AlertManagerDelegate, ProfilePresenter {
     fileprivate(set) weak var locator: ServiceLocator!
     fileprivate(set) weak var currentViewController: UIViewController!
 
-    init(user: User = User.currentUser()!, followType: FollowType, locator: ServiceLocator) {
+    init(user: User = User.current()!, followType: FollowType, locator: ServiceLocator) {
         self.user = user
         self.followType = followType
         self.locator = locator

@@ -15,7 +15,7 @@ class ProfileRouter: AlertManagerDelegate, EditProfilePresenter, FeedPresenter, 
     fileprivate(set) weak var currentViewController: UIViewController!
     fileprivate(set) weak var locator: ServiceLocator!
 
-    init(user: User = User.currentUser()!, locator: ServiceLocator) {
+    init(user: User = User.current()!, locator: ServiceLocator) {
         self.user = user
         self.locator = locator
     }
@@ -46,7 +46,7 @@ extension ProfileRouter: Router {
         } else if let userId = userId {
             profileController.setUserId(userId)
         }
-        context.showViewController(profileController, sender: self)
+        context.show(profileController, sender: self)
     }
 
 }

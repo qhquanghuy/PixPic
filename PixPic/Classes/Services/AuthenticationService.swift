@@ -22,13 +22,13 @@ enum AuthenticationError: Int {
 class AuthenticationService {
 
     func signInWithPermission(_ completion: @escaping (User?, NSError?) -> Void) {
-        guard let token = FBSDKAccessToken.currentAccessToken() else {
-            let accessTokenError = NSError.authenticationError(.InvalidAccessToken)
+        guard let token = FBSDKAccessToken.current() else {
+            let accessTokenError = NSError.authenticationError(.invalidAccessToken)
             completion(nil, accessTokenError)
 
             return
         }
-        PFFacebookUtils.logInInBackgroundWithAccessToken(token) { [weak self] user, error in
+        PFFacebookUtils.logInInBackground(with: token) { [weak self] user, error in
             if let user = user as? User {
                 if user.isNew || user.facebookId == nil {
                     self?.updateUserInfoViaFacebook(user) { user, error in
@@ -38,9 +38,9 @@ class AuthenticationService {
                     completion(user, nil)
                 }
             } else if let error = error {
-                completion(nil, error)
+                completion(nil, error as NSError)
             } else {
-                let userError = NSError.authenticationError(.FacebookError)
+                let userError = NSError.authenticationError(.facebookError)
                 completion(nil, userError)
 
                 return
@@ -48,15 +48,15 @@ class AuthenticationService {
         }
     }
 
-    func signInWithFacebookInController(_ controller: UIViewController, completion: (FBSDKLoginManagerLoginResult?, NSError?) -> Void) {
+    func signInWithFacebookInController(_ controller: UIViewController, completion: @escaping (FBSDKLoginManagerLoginResult?, NSError?) -> Void) {
         let loginManager = FBSDKLoginManager()
         let permissions = ["public_profile", "email", "user_photos"]
 
-        loginManager.loginBehavior = .Native
-        loginManager.logInWithReadPermissions(permissions, fromViewController: controller) { result, error in
-            if error != nil || result.isCancelled {
+        loginManager.loginBehavior = .native
+        loginManager.logIn(withReadPermissions: permissions, from: controller) { result, error in
+            if error != nil || result?.isCancelled == true {
                 loginManager.logOut()
-                completion(nil, error)
+                completion(nil, error as NSError?)
             } else {
                 completion(result, nil)
             }
@@ -69,7 +69,7 @@ class AuthenticationService {
             graphPath: "me",
             parameters: parameters
         )
-        fbRequest.startWithCompletionHandler { _, result, error in
+        let _ = fbRequest?.start { _, result, error in
             if error == nil && result != nil {
                 guard let facebookInfo = result as? [String: AnyObject],
                     let picture = facebookInfo["picture"] as? [String: AnyObject],
@@ -79,10 +79,10 @@ class AuthenticationService {
 
                         return
                 }
-                if let avatarURL = NSURL(string: url) {
+                if let avatarURL = URL(string: url) {
                     let avatarFile = PFFile(
                         name: Constants.UserKey.avatar,
-                        data: NSData(contentsOfURL: avatarURL)!
+                        data: try! Data(contentsOf: avatarURL)
                     )
                     user.avatar = avatarFile
                 }
@@ -96,17 +96,17 @@ class AuthenticationService {
                 }
                 completion(user, nil)
             } else {
-                completion(nil, error)
+                completion(nil, error as NSError?)
             }
         }
     }
 
     func anonymousLogIn(completion: @escaping (_ object: User?) -> Void, failure: @escaping (_ error: NSError?) -> Void) {
-        PFAnonymousUtils.logInWithBlock { user, error in
+        PFAnonymousUtils.logIn { user, error in
             if let error = error {
-                failure(error: error)
+                failure(error as NSError)
             } else if let user = user as? User {
-                completion(object: user)
+                completion(user)
                 PFInstallation.addPFUserToCurrentInstallation()
             }
         }

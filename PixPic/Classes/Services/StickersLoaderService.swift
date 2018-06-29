@@ -85,15 +85,15 @@ class StickersLoaderService {
             let comletionBlock = {
                 let stickersRelationQuery = group.stickersRelation.query().addAscendingOrder("createdAt")
                 stickersRelationQuery.cachePolicy = self.cachePolicy
-                stickersRelationQuery.findObjectsInBackgroundWithBlock { objects, error in
+                stickersRelationQuery.findObjectsInBackground { objects, error in
                     if let error = error {
                         log.debug(error.localizedDescription)
-                        completion(objects: nil, error: error)
+                        completion(nil, error as NSError)
 
                         return
                     }
                     guard let stickers = objects as? [Sticker] else {
-                        completion(objects: nil, error: nil)
+                        completion(nil, nil)
 
                         return
                     }
@@ -101,7 +101,7 @@ class StickersLoaderService {
                     let model = StickersModel(stickersGroup: group, stickers: stickers)
                     stickersModels.append(model)
 
-                    dispatch_group_leave(dispatchGroup)
+                    dispatchGroup.leave()
 
                     for sticker in stickers {
                         sticker.image.getDataInBackground()
@@ -109,7 +109,7 @@ class StickersLoaderService {
                 }
             }
 
-            group.image.getDataInBackgroundWithBlock { _, _ in
+            group.image.getDataInBackground { _, _ in
                 comletionBlock()
             }
 
@@ -122,7 +122,7 @@ class StickersLoaderService {
 
     fileprivate func figureOutCachePolicy(with handler: @escaping () -> Void) {
         //load stickers from cache
-        cachePolicy = PFCachePolicy.CacheElseNetwork
+        cachePolicy = PFCachePolicy.cacheElseNetwork
         handler()
 
         //figure out update necessity and handle it if needed

@@ -36,14 +36,14 @@ class StickersPickerCustomLayout: UICollectionViewLayout {
         var headersInRect = [UICollectionViewLayoutAttributes]()
         for sectionIndex in 0..<collectionView!.numberOfSections {
             guard let attribute =
-                layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader,
-                                                           atIndexPath: NSIndexPath(forItem: 0, inSection: sectionIndex)) else {
+                layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                     at: IndexPath(item: 0, section: sectionIndex)) else {
                                                             return nil
             }
             headersInRect.append(attribute)
-            for itemIndex in 0..<(collectionView!.numberOfItemsInSection(sectionIndex) ?? 0) {
-                let indexPath = NSIndexPath(forItem: itemIndex, inSection: sectionIndex)
-                guard let attribute = layoutAttributesForItemAtIndexPath(indexPath) else {
+            for itemIndex in 0..<(collectionView!.numberOfItems(inSection: sectionIndex) ) {
+                let indexPath = IndexPath(item: itemIndex, section: sectionIndex)
+                guard let attribute = layoutAttributesForItem(at: indexPath) else {
                     return nil
                 }
                 itemsInRect.append(attribute)
@@ -56,7 +56,7 @@ class StickersPickerCustomLayout: UICollectionViewLayout {
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) ->
         UICollectionViewLayoutAttributes? {
             let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind,
-                                                              withIndexPath: indexPath as IndexPath)
+                                                              with: indexPath)
             attributes.frame.size = Constants.StickerCell.size
             //every further header covers previous when interrupting
             attributes.zIndex = headersBasicZIndex + indexPath.section

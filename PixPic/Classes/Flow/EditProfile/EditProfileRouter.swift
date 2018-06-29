@@ -14,7 +14,7 @@ class EditProfileRouter: AlertManagerDelegate, FeedPresenter {
     fileprivate(set) weak var locator: ServiceLocator!
     fileprivate(set) weak var currentViewController: UIViewController!
 
-    init(user: User = User.currentUser()!, locator: ServiceLocator) {
+    init(user: User = User.current()!, locator: ServiceLocator) {
         self.user = user
         self.locator = locator
     }
@@ -32,7 +32,7 @@ extension EditProfileRouter: Router {
         editProfileController.setRouter(self)
         editProfileController.setLocator(locator)
         currentViewController = editProfileController
-        context.showViewController(editProfileController, sender: self)
+        context.show(editProfileController, sender: self)
     }
 
 }

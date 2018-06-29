@@ -52,7 +52,7 @@ extension ActivityViewController: UIActivityItemSource {
         return ""
     }
 
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
         switch activityType {
         case UIActivityType.postToFacebook:
             return facebookMessage

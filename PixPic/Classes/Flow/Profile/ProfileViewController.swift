@@ -130,7 +130,7 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
     fileprivate func setupController() {
         tableView.dataSource = postAdapter
         postAdapter.delegate = self
-        tableView.registerNib(PostViewCell.cellNib, forCellReuseIdentifier: PostViewCell.id)
+        tableView.register(PostViewCell.cellNib, forCellReuseIdentifier: PostViewCell.id)
         profileSettingsButton.tintColor = .clear
         setupTableViewFooter()
     }
@@ -188,7 +188,7 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
 
     fileprivate func scrollToPost(_ postId: String, animated: Bool) {
         if let indexPath = postAdapter.getPostIndexPath(postId) {
-            tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Middle, animated: animated)
+            tableView.scrollToRow(at: indexPath, at: .middle, animated: animated)
         }
     }
 
@@ -273,7 +273,7 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
 
     fileprivate func setupLoadersCallback() {
         let postService: PostService = locator.getService()
-        tableView.addPullToRefreshWithActionHandler { [weak self] in
+        tableView.addPullToRefresh { [weak self] in
             guard let this = self else {
                 return
             }
@@ -285,7 +285,7 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
 
                 return
             }
-            this.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.Network.timeoutTimeInterval,
+            this.timeoutTimer = Timer.scheduledTimerWithTimeInterval(Constants.Network.timeoutTimeInterval,
             repeats: false) {
                 noConnection()
             }
@@ -298,7 +298,7 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
             postService.loadPosts(this.user) { objects, error in
                 this.deleteTimer()
                 if let objects = objects {
-                    this.postAdapter.update(withPosts: objects, action: .Reload)
+                    this.postAdapter.update(withPosts: objects, action: .reload)
                     AttributesCache.sharedCache.clear()
                 } else if let error = error {
                     log.debug(error.localizedDescription)
@@ -306,13 +306,13 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
                 this.tableView.pullToRefreshView.stopAnimating()
             }
         }
-        tableView.addInfiniteScrollingWithActionHandler { [weak self] in
+        tableView.addInfiniteScrolling { [weak self] in
             guard let this = self else {
                 return
             }
             postService.loadPagedPosts(this.user, offset: this.postAdapter.postQuantity) { objects, error in
                 if let objects = objects {
-                    this.postAdapter.update(withPosts: objects, action: .LoadMore)
+                    this.postAdapter.update(withPosts: objects, action: .loadMore)
                 } else if let error = error {
                     log.debug(error.localizedDescription)
                 }
@@ -337,31 +337,31 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
             )
             let cancelAction = UIAlertAction.appAlertAction(
                 title: cancelActionTitle,
-                style: .Cancel
+                style: .cancel
             ) { [weak self] _ in
-                self?.followButton.enabled = true
+                self?.followButton.isEnabled = true
             }
             let unfollowAction = UIAlertAction.appAlertAction(
                 title: unfollowActionTitle,
-                style: .Default
+                style: .default
             ) { [weak self] _ in
                 guard let this = self, let user = this.user else {
                     return
                 }
-                this.followStatus = .Unknown
+                this.followStatus = .unknown
                 activityService.unfollowUserEventually(user) { [weak self] success, error in
                     if success {
                         guard let this = self else {
                             return
                         }
-                        this.followStatus = .NotFollowing
+                        this.followStatus = .notFollowing
                         this.fillFollowersQuantity(user)
-                        NSNotificationCenter.defaultCenter().postNotificationName(
-                            Constants.NotificationName.followersListIsUpdated,
+                        NotificationCenter.default.post(
+                            name: NSNotification.Name(rawValue: Constants.NotificationName.followersListIsUpdated),
                             object: nil
                         )
                     } else {
-                        this.followStatus = .Following
+                        this.followStatus = .following
                     }
                 }
             }
@@ -369,7 +369,7 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
             alertController.addAction(cancelAction)
             alertController.addAction(unfollowAction)
 
-            presentViewController(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         } else {
             // Follow
             followStatus = .unknown
@@ -493,7 +493,7 @@ extension ProfileViewController: PostAdapterDelegate {
 // MARK: - UITableViewDelegate methods
 extension ProfileViewController {
 
-    override func tableView(_ tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if activityShown == true {
             view.hideToastActivity()
             tableView.tableFooterView = nil
@@ -501,7 +501,7 @@ extension ProfileViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.bounds.size.width + PostViewCell.designedHeight
     }
 

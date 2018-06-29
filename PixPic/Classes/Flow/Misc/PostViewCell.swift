@@ -81,17 +81,17 @@ class PostViewCell: UITableViewCell, CellInterface {
         self.locator = locator
         self.post = post
         profileLabel.text = post.user?.username
-        dateLabel.text = post.createdAt?.timeAgoSinceNow()
+        dateLabel.text = post.createdAt?.timeAgoSinceNow
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
 
         settingsButton.isEnabled = false
         if let urlString = post.image.url, let url = URL(string: urlString) {
-            postImageView.kf_setImageWithURL(
-                url,
-                placeholderImage: UIImage.placeholderImage,
-                optionsInfo: nil) { [weak self] _, _, _, _ in
+            postImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage.placeholderImage,
+                options: nil) { [weak self] _, _, _, _ in
                     self?.indicator.stopAnimating()
-                    self?.settingsButton.enabled = true
+                    self?.settingsButton.isEnabled = true
             }
         }
 
@@ -101,9 +101,9 @@ class PostViewCell: UITableViewCell, CellInterface {
             return
         }
         if let avatar = user.avatar?.url {
-            profileImageView.kf_setImageWithURL(
-                URL(string: avatar)!,
-                placeholderImage: UIImage.avatarPlaceholderImage
+            profileImageView.kf.setImage(
+                with: URL(string: avatar)!,
+                placeholder: UIImage.avatarPlaceholderImage
             )
         }
         fillLikesQuantity()
@@ -116,7 +116,7 @@ class PostViewCell: UITableViewCell, CellInterface {
     }
 
     @IBAction fileprivate func didTapSettingsButton() {
-        let cache = KingfisherManager.sharedManager.cache
+        let cache = KingfisherManager.shared.cache
         guard let username = profileLabel.text,
             let url = post?.image.url,
             let cachedImage = cache.retrieveImageInDiskCacheForKey(url) else {

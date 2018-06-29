@@ -18,7 +18,7 @@ protocol CellInterface {
 extension CellInterface {
 
     static var id: String {
-        return String(describing: Self)
+        return String(describing: self)
     }
 
     static var cellNib: UINib {

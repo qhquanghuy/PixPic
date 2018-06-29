@@ -75,6 +75,8 @@ extension StickersPickerAdapter: UICollectionViewDataSource {
         
         return UICollectionViewCell()
     }
+    
+    
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         var reusableview = UICollectionReusableView()

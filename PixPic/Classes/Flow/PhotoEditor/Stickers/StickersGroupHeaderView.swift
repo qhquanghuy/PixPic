@@ -34,10 +34,10 @@ class StickersGroupHeaderView: UICollectionReusableView, CellInterface {
             }
             this.isSelected = !this.isSelected
             let color = this.isSelected ? UIColor.appTintColor() : UIColor.appWhiteColor()
-            UIView.animateWithDuration(
-                tintColorAnimationDuration,
+            UIView.animate(
+                withDuration: tintColorAnimationDuration,
                 delay: 0,
-                options: [.CurveLinear],
+                options: [.curveLinear],
                 animations: {
                     this.imageView.tintColor = color
                     this.label.textColor = color
@@ -51,7 +51,7 @@ class StickersGroupHeaderView: UICollectionReusableView, CellInterface {
         imageView.image = UIImage.stickerPlaceholderImage
         file.getImage { image, error in
             if let image = image {
-                self.imageView.image = image.imageWithRenderingMode(.AlwaysTemplate)
+                self.imageView.image = image.withRenderingMode(.alwaysTemplate)
                 self.imageView.tintColor = UIColor.appWhiteColor()
             } else {
                 log.debug(error?.localizedDescription)

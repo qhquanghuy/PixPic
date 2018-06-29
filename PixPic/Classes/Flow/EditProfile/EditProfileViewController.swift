@@ -117,10 +117,10 @@ final class EditProfileViewController: BaseUIViewController, StoryboardInitiable
         }
         avatarImageView.layer.masksToBounds = true
         saveButton.isEnabled = false
-        nickNameTextField.text = User.currentUser()?.username
-        userName = User.currentUser()?.username
+        nickNameTextField.text = User.current()?.username
+        userName = User.current()?.username
         originalUserName = userName
-        guard let avatar = User.currentUser()?.avatar else {
+        guard let avatar = User.current()?.avatar else {
             return
         }
         avatar.getImage { [weak self] image, error in
@@ -154,26 +154,26 @@ final class EditProfileViewController: BaseUIViewController, StoryboardInitiable
             )
             let noAction = UIAlertAction.appAlertAction(
                 title: okActionTitle,
-                style: .Cancel
+                style: .cancel
                 ) { [weak self] action in
                     PushNotificationQueue.handleNotificationQueue()
-                    alertController.dismissViewControllerAnimated(true, completion: nil)
-                    self?.navigationController?.popViewControllerAnimated(true)
+                    alertController.dismiss(animated: true, completion: nil)
+                    self?.navigationController?.popViewController(animated: true)
             }
             alertController.addAction(noAction)
 
             let yesAction = UIAlertAction.appAlertAction(
                 title: saveActionTitle,
-                style: .Default
+                style: .default
                 ) { [weak self] action in
                     self?.saveChangesAction()
                     PushNotificationQueue.handleNotificationQueue()
             }
             alertController.addAction(yesAction)
 
-            self.presentViewController(alertController, animated: true) {}
+            self.present(alertController, animated: true) {}
         } else {
-            navigationController?.popViewControllerAnimated(true)
+            navigationController?.popViewController(animated: true)
         }
     }
 
@@ -219,8 +219,8 @@ final class EditProfileViewController: BaseUIViewController, StoryboardInitiable
         bottomConstraint.constant = kbHidden ? movement / 2 : 0
         topConstraint.constant = kbHidden ? -movement / 2 : 0
         view.needsUpdateConstraints()
-        UIView.animateWithDuration(
-            textFieldAnimationDuration,
+        UIView.animate(
+            withDuration: textFieldAnimationDuration,
             animations: {
                 self.view.layoutIfNeeded()
             }
@@ -254,10 +254,10 @@ final class EditProfileViewController: BaseUIViewController, StoryboardInitiable
             return
         }
         view.makeToastActivity(CSToastPositionCenter)
-        view.userInteractionEnabled = false
+        view.isUserInteractionEnabled = false
         let userService: UserService = locator.getService()
         userService.uploadUserChanges(
-            User.currentUser()!,
+            User.current()!,
             avatar: file,
             nickname: userName!,
             completion: { _, error in
@@ -265,10 +265,10 @@ final class EditProfileViewController: BaseUIViewController, StoryboardInitiable
                     log.debug(error)
                 }
                 self.view.hideToastActivity()
-                self.view.userInteractionEnabled = true
+                self.view.isUserInteractionEnabled = true
             }
         )
-        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.popToRootViewController(animated: true)
     }
 
     // MARK: - IBActions

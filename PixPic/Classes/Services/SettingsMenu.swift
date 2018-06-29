@@ -38,22 +38,22 @@ class SettingsMenu: NSObject, UINavigationControllerDelegate {
             let settingsMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let cancelAction = UIAlertAction.appAlertAction(
                 title: cancelActionTitle,
-                style: .Cancel,
+                style: .cancel,
                 handler: nil)
             settingsMenu.addAction(cancelAction)
 
             let shareAction = UIAlertAction.appAlertAction(
                 title: shareActionTitle,
-                style: .Default
+                style: .default
                 ) { [weak self] _ in
                     self?.showActivityController(withItems: items)
             }
             settingsMenu.addAction(shareAction)
 
-            if let userFacebookId = post.user!.facebookId, let currentUserFacebookId = User.currentUser()!.facebookId, userFacebookId == currentUserFacebookId {
+            if let userFacebookId = post.user!.facebookId, let currentUserFacebookId = User.current()!.facebookId, userFacebookId == currentUserFacebookId {
                 let removeAction = UIAlertAction.appAlertAction(
                     title: removeActionTitle,
-                    style: .Default
+                    style: .default
                     ) { [weak self] _ in
                         self?.removePost(post, atIndex: index)
                 }
@@ -61,7 +61,7 @@ class SettingsMenu: NSObject, UINavigationControllerDelegate {
             } else {
                 let complaintAction = UIAlertAction.appAlertAction(
                     title: complaintActionTitle,
-                    style: .Default
+                    style: .default
                     ) { [weak self] _ in
                         self?.complaintToPost(post)
                 }
@@ -82,7 +82,8 @@ class SettingsMenu: NSObject, UINavigationControllerDelegate {
                 let postService: PostService = this.locator.getService()
                 postService.removePost(post) { succeeded, error in
                     if succeeded {
-                        this.postRemovalHandler(atIndex: index)
+                        
+                        this.postRemovalHandler(index)
                     } else if let error = error?.localizedDescription {
                         log.debug(error)
                     }
@@ -94,14 +95,14 @@ class SettingsMenu: NSObject, UINavigationControllerDelegate {
         let complaintMenu = UIAlertController(title: complaintMessage, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction.appAlertAction(
             title: cancelActionTitle,
-            style: .Cancel,
+            style: .cancel,
             handler: nil)
         complaintMenu.addAction(cancelAction)
 
         let complaintService: ComplaintService = locator.getService()
         let complainAboutUsernameAction = UIAlertAction.appAlertAction(
             title: NSLocalizedString("\(ComplaintReason.Username.rawValue)", comment: ""),
-            style: .Default
+            style: .default
             ) { _ in
                 complaintService.complainAboutUsername(post.user!) { _, error in
                     log.debug(error?.localizedDescription)
@@ -110,7 +111,7 @@ class SettingsMenu: NSObject, UINavigationControllerDelegate {
 
         let complainAboutUserAvatarAction = UIAlertAction.appAlertAction(
             title: NSLocalizedString("\(ComplaintReason.UserAvatar.rawValue)", comment: ""),
-            style: .Default
+            style: .default
             ) { _ in
                 complaintService.complainAboutUserAvatar(post.user!) { _, error in
                     log.debug(error?.localizedDescription)
@@ -119,7 +120,7 @@ class SettingsMenu: NSObject, UINavigationControllerDelegate {
 
         let complainAboutPostAction = UIAlertAction.appAlertAction(
             title: NSLocalizedString("\(ComplaintReason.PostImage.rawValue)", comment: ""),
-            style: .Default
+            style: .default
             ) { _ in
                 complaintService.complainAboutPost(post) { _, error in
                     log.debug(error?.localizedDescription)

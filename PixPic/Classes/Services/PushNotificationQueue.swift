@@ -33,7 +33,7 @@ class PushNotificationQueue: NSObject {
         notificationQueue.removeAll()
     }
 
-    static func showNotificationFromQueue() {
+    @objc static func showNotificationFromQueue() {
         var message: String?
 
         switch notificationQueue.count {

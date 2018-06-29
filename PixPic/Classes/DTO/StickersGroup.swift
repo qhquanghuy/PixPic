@@ -12,8 +12,8 @@ class StickersGroup: PFObject {
     @NSManaged var label: String
     fileprivate static var onceToken: dispatch_once_t = 0
 
-    var stickersRelation: PFRelation! {
-        return relationForKey("stickersRelation")
+    var stickersRelation: PFRelation<PFObject>! {
+        return relation(forKey: "stickersRelation")
     }
 
     override class func initialize() {
