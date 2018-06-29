@@ -87,8 +87,8 @@ class AppearanceNavigationController: UINavigationController, UINavigationContro
     }
 
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        return appliedAppearance?.statusBarStyle ?? self.topViewController?.preferredStatusBarStyle()
-            ?? super.preferredStatusBarStyle()
+        return appliedAppearance?.statusBarStyle ?? self.topViewController?.preferredStatusBarStyle
+            ?? super.preferredStatusBarStyle
     }
     
     override var preferredStatusBarUpdateAnimation : UIStatusBarAnimation {

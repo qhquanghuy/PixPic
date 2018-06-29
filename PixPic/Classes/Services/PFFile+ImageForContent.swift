@@ -13,9 +13,9 @@ typealias LoadingImageCompletion = (_ image: UIImage?, _ error: NSError?) -> Voi
 extension PFFile {
 
     func getImage(_ completion: @escaping LoadingImageCompletion) {
-        getDataInBackgroundWithBlock { data, error in
+        getDataInBackground { data, error in
             if let data = data, let image = UIImage(data: data) {
-                completion(image: image, error: error)
+                completion(image, error as NSError?)
             }
         }
     }

@@ -240,8 +240,12 @@
 
                 return
             }
-            var timeoutTimer = Timer.scheduledTimerWithTimeInterval(Constants.Network.timeoutTimeInterval, repeats: false) {
-                noConnection()
+            if #available(iOS 10.0, *) {
+                var timeoutTimer = Timer.scheduledTimer(withTimeInterval: Constants.Network.timeoutTimeInterval, repeats: false) {_ in 
+                    noConnection()
+                }
+            } else {
+                // Fallback on earlier versions
             }
 
             guard ReachabilityHelper.isReachable() else {
@@ -250,7 +254,7 @@
                 return
             }
             postService.loadPosts { objects, error in
-                timeoutTimer.invalidate()
+                timeoutTimer?.invalidate()
                 timeoutTimer = nil
                 if let objects = objects {
                     this.postAdapter.update(withPosts: objects, action: .reload)

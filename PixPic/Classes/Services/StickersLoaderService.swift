@@ -29,22 +29,22 @@ class StickersLoaderService {
             let query = StickersVersion.sortedQuery
             query.cachePolicy = this.cachePolicy
 
-            query.getFirstObjectInBackgroundWithBlock { object, error in
+            query.getFirstObjectInBackground { object, error in
                 if let error = error {
                     log.debug(error.localizedDescription)
-                    completion?(objects: nil, error: error)
+                    completion?(nil, error as NSError?)
 
                     return
                 }
 
                 guard let stickersVersion = object as? StickersVersion  else {
-                    completion?(objects: nil, error: nil)
+                    completion?(nil, nil)
 
                     return
                 }
 
                 this.loadStickersGroups(stickersVersion) { objects, error in
-                    completion?(objects: objects, error: error)
+                    completion?(objects, error)
                 }
             }
         }
@@ -53,22 +53,22 @@ class StickersLoaderService {
     fileprivate func loadStickersGroups(_ stickersVersion: StickersVersion, completion: @escaping LoadingStickersCompletion) {
         let groupsRelationQuery = stickersVersion.groupsRelation.query()
         groupsRelationQuery.cachePolicy = cachePolicy
-        groupsRelationQuery.findObjectsInBackgroundWithBlock { [weak self] objects, error in
+        groupsRelationQuery.findObjectsInBackground { [weak self] objects, error in
             if let error = error {
                 log.debug(error.localizedDescription)
-                completion(objects: nil, error: error)
+                completion(nil, error as NSError?)
 
                 return
             }
 
             guard let objects = objects as? [StickersGroup] else {
-                completion(objects: nil, error: nil)
+                completion(nil, nil)
 
                 return
             }
 
             self?.loadAllStickers(objects) { objects, error in
-                completion(objects: objects, error: error)
+                completion(objects, error)
             }
         }
     }
@@ -127,10 +127,10 @@ class StickersLoaderService {
 
         //figure out update necessity and handle it if needed
         let remoteQuery = StickersVersion.sortedQuery
-        remoteQuery.cachePolicy = .NetworkOnly
+        remoteQuery.cachePolicy = .networkOnly
 
         let localQuery = StickersVersion.sortedQuery
-        localQuery.cachePolicy = .CacheOnly
+        localQuery.cachePolicy = .cacheOnly
 
         guard ReachabilityHelper.isReachable() else {
             handler()
@@ -138,10 +138,10 @@ class StickersLoaderService {
             return
         }
 
-        localQuery.getFirstObjectInBackgroundWithBlock { localObject, error in
+        localQuery.getFirstObjectInBackground { localObject, error in
             if let error = error {
                 log.debug(error.localizedDescription)
-                self.cachePolicy = .NetworkElseCache
+                self.cachePolicy = .networkElseCache
                 handler()
 
                 return
@@ -151,7 +151,7 @@ class StickersLoaderService {
                 return
             }
 
-            remoteQuery.getFirstObjectInBackgroundWithBlock { remoteObject, error in
+            remoteQuery.getFirstObjectInBackground { remoteObject, error in
                 if let error = error {
                     log.debug(error.localizedDescription)
                     handler()
@@ -165,7 +165,7 @@ class StickersLoaderService {
 
                 if remoteVersion.version > localVersion.version {
                     log.debug("\(remoteVersion.version) > \(localVersion.version)")
-                    self.cachePolicy = .NetworkElseCache
+                    self.cachePolicy = .networkElseCache
                     handler()
                 }
             }

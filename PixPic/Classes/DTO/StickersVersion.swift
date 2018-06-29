@@ -11,16 +11,16 @@ class StickersVersion: PFObject {
     @NSManaged var version: Float
     fileprivate static var onceToken: dispatch_once_t = 0
 
-    static var sortedQuery: PFQuery {
+    static var sortedQuery: PFQuery<PFObject> {
         let query = PFQuery(className: StickersVersion.parseClassName())
-        query.cachePolicy = .NetworkElseCache
-        query.orderByDescending("version")
+        query.cachePolicy = .networkElseCache
+        query.order(byDescending: "version")
 
         return query
     }
 
-    var groupsRelation: PFRelation! {
-        return relationForKey("groupsRelation")
+    var groupsRelation: PFRelation<PFObject>! {
+        return relation(forKey: "groupsRelation")
     }
 
     override class func initialize() {

@@ -38,7 +38,7 @@ class StickersPickerViewController: UICollectionViewController {
 
     // MARK: - Private methods
     fileprivate func setupCollectionView() {
-        collectionView!.registerNib(
+        collectionView!.register(
             StickersGroupHeaderView.cellNib,
             forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
             withReuseIdentifier: StickersGroupHeaderView.id

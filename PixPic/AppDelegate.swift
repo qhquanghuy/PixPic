@@ -51,17 +51,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let installation = PFInstallation.currentInstallation()
-        installation.setDeviceTokenFromData(deviceToken)
-        installation.channels = ["global"]
-        installation.saveEventually()
+        let installation = PFInstallation.current()
+        installation?.setDeviceTokenFrom(deviceToken)
+        installation?.channels = ["global"]
+        installation?.saveEventually()
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         if application.applicationState == .inactive {
-            PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+            PFAnalytics.trackAppOpened(withRemoteNotificationPayload: userInfo)
         }
-        PFPush.handlePush(userInfo)
+        PFPush.handle(userInfo)
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -83,19 +83,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     fileprivate func resetBadge() {
-        let currentInstallation = PFInstallation.currentInstallation()
-        currentInstallation.badge = 0
-        currentInstallation.saveEventually()
+        let currentInstallation = PFInstallation.current()
+        currentInstallation?.badge = 0
+        currentInstallation?.saveEventually()
     }
 
     fileprivate func setupParse() {
         User.registerSubclass()
-        Parse.setApplicationId(Constants.ParseApplicationId.appID, clientKey: Constants.ParseApplicationId.clientKey)
+        Parse.setApplicationId(Constants.ParseApplicationId.AppID, clientKey: Constants.ParseApplicationId.ClientKey)
     }
 
     fileprivate func setupParseAnalyticsWith(launchOptions options: [AnyHashable: Any]?) {
         if options?[UIApplicationLaunchOptionsKey.remoteNotification] != nil {
-            PFAnalytics.trackAppOpenedWithLaunchOptions(options)
+            PFAnalytics.trackAppOpened(launchOptions: options)
         }
     }
 
@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     fileprivate func setupToast() {
         let style = CSToastStyle(defaultStyle: ())
-        style.backgroundColor = UIColor.clearColor()
+        style?.backgroundColor = .clear
         CSToastManager.setSharedStyle(style)
     }
 

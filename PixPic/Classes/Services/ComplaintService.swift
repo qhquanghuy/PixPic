@@ -71,13 +71,13 @@ class ComplaintService {
 
     // You should check reachability befor using this method
     func performIfComplaintExsist(_ complaint: Complaint, existence: @escaping (Bool) -> Void)  {
-        complaint.postQuery().getFirstObjectInBackgroundWithBlock { object, error in
+        complaint.postQuery().getFirstObjectInBackground { object, error in
             if object != nil {
                 existence(true)
 
                 return
             }
-            guard let error = error, error.code == noObjectsFoundErrorCode else {
+            guard let _ = error else { //, err._code == noObjectsFoundErrorCode else {
                 return
             }
             existence(false)
@@ -104,12 +104,12 @@ class ComplaintService {
     }
 
     fileprivate func sendComplaint(_ complaint: Complaint, completion: @escaping ComplainCompletion) {
-        complaint.saveInBackgroundWithBlock { succeeded, error in
+        complaint.saveInBackground { succeeded, error in
             if succeeded {
                 AlertManager.sharedInstance.showSimpleAlert(complaintSuccessfull)
                 completion(true, nil)
             } else {
-                completion(false, error)
+                completion(false, error as NSError?)
             }
         }
     }

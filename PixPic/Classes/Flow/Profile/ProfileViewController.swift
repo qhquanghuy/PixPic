@@ -270,6 +270,12 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
         timeoutTimer?.invalidate()
         timeoutTimer = nil
     }
+    
+    @objc private func noConnection() {
+        ExceptionHandler.handle(Exception.NoConnection)
+        self.tableView.pullToRefreshView.stopAnimating()
+        self.deleteTimer()
+    }
 
     fileprivate func setupLoadersCallback() {
         let postService: PostService = locator.getService()
@@ -278,19 +284,24 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
                 return
             }
 
-            let noConnection = {
-                ExceptionHandler.handle(Exception.NoConnection)
-                this.tableView.pullToRefreshView.stopAnimating()
-                this.deleteTimer()
-
-                return
-            }
-            this.timeoutTimer = Timer.scheduledTimerWithTimeInterval(Constants.Network.timeoutTimeInterval,
-            repeats: false) {
-                noConnection()
-            }
+//            let noConnection = {
+//                ExceptionHandler.handle(Exception.NoConnection)
+//                this.tableView.pullToRefreshView.stopAnimating()
+//                this.deleteTimer()
+//
+//                return
+//            }
+            this.timeoutTimer = Timer.scheduledTimer(timeInterval: Constants.Network.timeoutTimeInterval,
+                                                     target: this,
+                                                     selector: #selector(this.noConnection),
+                                                     userInfo: nil,
+                                                     repeats: true)
+//            this.timeoutTimer = Timer.scheduledTimer(withTimeInterval: Constants.Network.timeoutTimeInterval,
+//            repeats: false) {
+//                noConnection()
+//            }
             guard ReachabilityHelper.isReachable() else {
-                noConnection()
+                this.noConnection()
 
                 return
             }
