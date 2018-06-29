@@ -15,7 +15,7 @@ class BaseUIViewController: UIViewController {
 
         let leftButton = UIBarButtonItem(
             image: UIImage.appBackButton,
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(navigateBack)
         )
@@ -23,7 +23,7 @@ class BaseUIViewController: UIViewController {
     }
 
     @objc fileprivate func navigateBack() {
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -31,7 +31,7 @@ class BaseUIViewController: UIViewController {
 
         if let subviews = navigationController?.navigationBar.subviews {
             for view in subviews {
-                view.exclusiveTouch = true
+                view.isExclusiveTouch = true
             }
         }
     }

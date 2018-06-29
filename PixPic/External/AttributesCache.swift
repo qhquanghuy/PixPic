@@ -186,10 +186,10 @@ final class AttributesCache {
     }
 
     fileprivate func keyForPost(_ post: Post) -> String {
-        return "post_\(post.objectId)"
+        return "post_\(String(describing: post.objectId))"
     }
 
     fileprivate func keyForUser(_ user: User) -> String {
-        return "user_\(user.objectId)"
+        return "user_\(String(describing: user.objectId))"
     }
 }

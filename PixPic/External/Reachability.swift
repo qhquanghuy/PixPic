@@ -42,7 +42,7 @@ public enum ReachabilityError: Error {
 public let reachabilityChangedNotification = "reachabilityChangedNotification"
 
 func callback(_ reachability: SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer) {
-    let reachability = Unmanaged<Reachability>.fromOpaque(OpaquePointer(info)).takeUnretainedValue()
+    let reachability = Unmanaged<Reachability>.fromOpaque(UnsafeRawPointer(info)).takeUnretainedValue()
 
     DispatchQueue.main.async {
         reachability.reachabilityChanged(flags)
@@ -117,7 +117,9 @@ open class Reachability: NSObject {
         zeroAddress.sin_family = sa_family_t(AF_INET)
 
         guard let ref = withUnsafePointer(to: &zeroAddress, {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {sockaddrPtr in
+                SCNetworkReachabilityCreateWithAddress(nil, sockaddrPtr)
+            }
         }) else { throw ReachabilityError.failedToCreateWithAddress(zeroAddress) }
 
         return Reachability(reachabilityRef: ref)
@@ -134,7 +136,10 @@ open class Reachability: NSObject {
         localWifiAddress.sin_addr.s_addr = in_addr_t(address.bigEndian)
 
         guard let ref = withUnsafePointer(to: &localWifiAddress, {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {sockaddrPtr in
+                SCNetworkReachabilityCreateWithAddress(nil, sockaddrPtr)
+            }
+//            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
         }) else { throw ReachabilityError.failedToCreateWithAddress(localWifiAddress) }
 
         return Reachability(reachabilityRef: ref)
@@ -146,9 +151,9 @@ open class Reachability: NSObject {
         guard !notifierRunning else { return }
 
         var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
-        context.info = UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque())
+        context.info = Unmanaged.passUnretained(self).toOpaque()
 
-        if !SCNetworkReachabilitySetCallback(reachabilityRef!, callback as! SCNetworkReachabilityCallBack, &context) {
+        if !SCNetworkReachabilitySetCallback(reachabilityRef!, callback as? SCNetworkReachabilityCallBack, &context) {
             stopNotifier()
             throw ReachabilityError.unableToSetCallback
         }
@@ -209,7 +214,7 @@ open class Reachability: NSObject {
 
     // MARK: - *** Private methods ***
     fileprivate var isRunningOnDevice: Bool = {
-        #if (arch(i386) || arch(x86_64)) && os(iOS)
+        #if targetEnvironment(simulator)
             return false
         #else
             return true
