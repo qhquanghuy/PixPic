@@ -9,7 +9,7 @@
 class StickersVersion: PFObject {
 
     @NSManaged var version: Float
-    fileprivate static var onceToken: dispatch_once_t = 0
+//    fileprivate static var onceToken: dispatch_once_t = 0
 
     static var sortedQuery: PFQuery<PFObject> {
         let query = PFQuery(className: StickersVersion.parseClassName())
@@ -23,11 +23,11 @@ class StickersVersion: PFObject {
         return relation(forKey: "groupsRelation")
     }
 
-    override class func initialize() {
-        dispatch_once(&onceToken) {
-            self.registerSubclass()
-        }
-    }
+//    override class func initialize() {
+//        dispatch_once(&onceToken) {
+//            self.registerSubclass()
+//        }
+//    }
 
 }
 

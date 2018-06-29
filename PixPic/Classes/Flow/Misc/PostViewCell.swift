@@ -8,7 +8,7 @@
 
 import UIKit
 import Kingfisher
-
+import DateToolsSwift
 private let headerViewHeight: CGFloat = 62
 private let footerViewHeight: CGFloat = 44
 
@@ -18,7 +18,7 @@ class PostViewCell: UITableViewCell, CellInterface {
 
     static let designedHeight = headerViewHeight + footerViewHeight
 
-    weak var post = Post?()
+    weak var post = Post()
 
     var didSelectUser: ((_ cell: PostViewCell) -> Void)?
     var didSelectSettings: ((_ cell: PostViewCell, _ items: [AnyObject]) -> Void)?
@@ -119,13 +119,13 @@ class PostViewCell: UITableViewCell, CellInterface {
         let cache = KingfisherManager.shared.cache
         guard let username = profileLabel.text,
             let url = post?.image.url,
-            let cachedImage = cache.retrieveImageInDiskCacheForKey(url) else {
+            let cachedImage = cache.retrieveImageInDiskCache(forKey: url) else {
                 return
         }
         let message = "Created by " + username + " with PixPic app."
-        let items = [cachedImage, message]
+        let items: [AnyObject] = [cachedImage, message as AnyObject]
 
-        didSelectSettings?(cell: self, items: items)
+        didSelectSettings?(self, items)
     }
 
     @IBAction func didTapLikeButton(_ sender: AnyObject) {

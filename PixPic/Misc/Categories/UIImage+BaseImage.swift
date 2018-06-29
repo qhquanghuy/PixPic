@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension UIImage {
+public extension UIImage {
 
-    static var appBackButton: UIImage? {
+    @objc public class var appBackButton: UIImage? {
         return UIImage(named: "backArrow")
     }
 

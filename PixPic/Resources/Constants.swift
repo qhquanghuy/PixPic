@@ -11,8 +11,8 @@ struct Constants {
 
     struct ParseApplicationId {
         //add this 2 keys from 'develop'. also add fabric script to build phases, url scheme and FacebookAppID to plist
-        static let AppID = ""
-        static let ClientKey = ""
+        static let AppID = "myapp" //dont know what it is
+        static let ClientKey = "1234ng"
     }
 
     struct NotificationName {

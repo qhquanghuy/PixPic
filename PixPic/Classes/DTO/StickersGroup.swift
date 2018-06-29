@@ -10,17 +10,17 @@ class StickersGroup: PFObject {
 
     @NSManaged var image: PFFile
     @NSManaged var label: String
-    fileprivate static var onceToken: dispatch_once_t = 0
+//    fileprivate static var onceToken: dispatch_once_t = 0
 
     var stickersRelation: PFRelation<PFObject>! {
         return relation(forKey: "stickersRelation")
     }
 
-    override class func initialize() {
-        dispatch_once(&onceToken) {
-            self.registerSubclass()
-        }
-    }
+//    override class func initialize() {
+//        dispatch_once(&onceToken) {
+//            self.registerSubclass()
+//        }
+//    }
 
 }
 

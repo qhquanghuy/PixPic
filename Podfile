@@ -17,7 +17,7 @@ target 'PixPic' do
     # UI
         pod 'Toast'
         pod 'SVPullToRefresh'
-        pod 'DateTools'
+        pod 'DateToolsSwift'
         pod 'DZNEmptyDataSet'
         pod 'MBProgressHUD'
         pod 'AFDropdownNotification'
@@ -29,5 +29,7 @@ target 'PixPic' do
     # Utils
         pod 'Kingfisher'
         pod 'XCGLogger'
+        pod 'SDWebImage'
+        pod 'AFNetworking'
 
 end

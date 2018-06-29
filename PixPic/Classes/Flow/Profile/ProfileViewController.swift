@@ -295,7 +295,7 @@ final class ProfileViewController: BaseUITableViewController, StoryboardInitiabl
                                                      target: this,
                                                      selector: #selector(this.noConnection),
                                                      userInfo: nil,
-                                                     repeats: true)
+                                                     repeats: false)
 //            this.timeoutTimer = Timer.scheduledTimer(withTimeInterval: Constants.Network.timeoutTimeInterval,
 //            repeats: false) {
 //                noConnection()

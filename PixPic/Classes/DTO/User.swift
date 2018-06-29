@@ -15,7 +15,7 @@ class User: PFUser {
     @NSManaged var appUsername: String?
     @NSManaged var passwordSet: Bool
 
-    fileprivate static var onceToken: dispatch_once_t = 0
+//    fileprivate static var onceToken: dispatch_once_t = 0
 
     static var sortedQuery: PFQuery<PFObject> {
         let query = PFQuery(className: User.parseClassName())
@@ -25,11 +25,11 @@ class User: PFUser {
         return query
     }
 
-    override class func initialize() {
-        dispatch_once(&onceToken) {
-            self.registerSubclass()
-        }
-    }
+//    override class func initialize() {
+//        dispatch_once(&onceToken) {
+//            self.registerSubclass()
+//        }
+//    }
 
     override class func current() -> User? {
         return PFUser.current() as? User

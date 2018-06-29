@@ -12,7 +12,7 @@ class Post: PFObject {
     @NSManaged var user: User?
     @NSManaged var comment: String?
 
-    fileprivate static var onceToken: dispatch_once_t = 0
+//    fileprivate static var onceToken: dispatch_once_t = 0
 
     static var sortedQuery: PFQuery<PFObject> {
         let query = PFQuery(className: Post.parseClassName())
@@ -23,11 +23,11 @@ class Post: PFObject {
         return query
     }
 
-    override class func initialize() {
-        dispatch_once(&onceToken) {
-            self.registerSubclass()
-        }
-    }
+//    override class func initialize() {
+//        dispatch_once(&onceToken) {
+//            self.registerSubclass()
+//        }
+//    }
 
     convenience init(image: PFFile, user: User, comment: String?) {
         self.init()

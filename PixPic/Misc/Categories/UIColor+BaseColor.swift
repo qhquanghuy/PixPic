@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIColor {
+public extension UIColor {
 
     // MARK: - Base colors
     static func appNavBarColor() -> UIColor {
@@ -19,7 +19,7 @@ extension UIColor {
         return UIColor(rgbColorCodeRed: 148, green: 55, blue: 234, alpha: 1)
     }
 
-    static func appWhiteColor() -> UIColor {
+    @objc public class func appWhiteColor() -> UIColor {
         return UIColor.white
     }
 

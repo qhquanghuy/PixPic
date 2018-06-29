@@ -66,7 +66,7 @@ extension ActivityViewController: UIActivityItemSource {
         case UIActivityType.assignToContact:
             return applyToContactMessage
 
-        case activityTypePostToVK:
+        case UIActivityType(activityTypePostToVK):
             return vkMessage
 
         default:

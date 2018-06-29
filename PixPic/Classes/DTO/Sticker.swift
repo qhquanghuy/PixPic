@@ -9,13 +9,13 @@
 class Sticker: PFObject {
 
     @NSManaged var image: PFFile
-    fileprivate static var onceToken: dispatch_once_t = 0
+//    fileprivate static var onceToken: dispatch_once_t = 0
 
-    override class func initialize() {
-        dispatch_once(&onceToken) {
-            self.registerSubclass()
-        }
-    }
+//    override class func initialize() {
+//        dispatch_once(&onceToken) {
+//            self.registerSubclass()
+//        }
+//    }
 
 }
 

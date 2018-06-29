@@ -89,8 +89,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     fileprivate func setupParse() {
-        User.registerSubclass()
         Parse.setApplicationId(Constants.ParseApplicationId.AppID, clientKey: Constants.ParseApplicationId.ClientKey)
+        User.registerSubclass()
+        Activity.registerSubclass()
+        Sticker.registerSubclass()
+        Complaint.registerSubclass()
+        StickersGroup.registerSubclass()
+        Post.registerSubclass()
+        StickersVersion.registerSubclass()
+        
     }
 
     fileprivate func setupParseAnalyticsWith(launchOptions options: [AnyHashable: Any]?) {

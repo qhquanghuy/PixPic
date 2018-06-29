@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		005C127720E6907F00096FC2 /* CSFFacebookAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 005C127620E6907F00096FC2 /* CSFFacebookAlbum.m */; };
 		775507D31D23B8530000D47B /* UIAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775507D21D23B8530000D47B /* UIAlertAction.swift */; };
 		77665C6E1D1832900008A7CE /* BaseUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77665C6D1D1832900008A7CE /* BaseUIViewController.swift */; };
 		77665C701D1834440008A7CE /* BaseUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77665C6F1D1834440008A7CE /* BaseUITableViewController.swift */; };
@@ -125,7 +126,6 @@
 		77EED8581D38FD2F00A38E04 /* CSFFacebookPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EED8421D38FD2E00A38E04 /* CSFFacebookPhotoCell.m */; };
 		77EED8591D38FD2F00A38E04 /* CSFFacebookAlbumsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EED8451D38FD2E00A38E04 /* CSFFacebookAlbumsListViewController.m */; };
 		77EED85A1D38FD2F00A38E04 /* CSFFacebookExpandedAlbumCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EED8471D38FD2E00A38E04 /* CSFFacebookExpandedAlbumCollectionViewController.m */; };
-		77EED85B1D38FD2F00A38E04 /* CSFFacebookAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EED84A1D38FD2E00A38E04 /* CSFFacebookAlbum.m */; };
 		77EED85C1D38FD2F00A38E04 /* CSFFacebookPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EED84C1D38FD2E00A38E04 /* CSFFacebookPhoto.m */; };
 		77EED85D1D38FD2F00A38E04 /* CSFFacebookPhotoImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EED84E1D38FD2E00A38E04 /* CSFFacebookPhotoImage.m */; };
 		77EED85E1D38FD2F00A38E04 /* TDIRoundNavigationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EED8511D38FD2E00A38E04 /* TDIRoundNavigationButton.m */; };
@@ -137,6 +137,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		005C127520E6907E00096FC2 /* CSFFacebookAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFFacebookAlbum.h; sourceTree = "<group>"; };
+		005C127620E6907F00096FC2 /* CSFFacebookAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFFacebookAlbum.m; sourceTree = "<group>"; };
 		2B55465A103903CD3D0318DC /* Pods_PixPic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PixPic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BCE0C40092F9699A50D4758 /* Pods-PixPic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixPic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PixPic/Pods-PixPic.debug.xcconfig"; sourceTree = "<group>"; };
 		775507D21D23B8530000D47B /* UIAlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIAlertAction.swift; path = ../../Classes/Services/UIAlertAction.swift; sourceTree = "<group>"; };
@@ -265,8 +267,6 @@
 		77EED8451D38FD2E00A38E04 /* CSFFacebookAlbumsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFFacebookAlbumsListViewController.m; sourceTree = "<group>"; };
 		77EED8461D38FD2E00A38E04 /* CSFFacebookExpandedAlbumCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFFacebookExpandedAlbumCollectionViewController.h; sourceTree = "<group>"; };
 		77EED8471D38FD2E00A38E04 /* CSFFacebookExpandedAlbumCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFFacebookExpandedAlbumCollectionViewController.m; sourceTree = "<group>"; };
-		77EED8491D38FD2E00A38E04 /* CSFFacebookAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFFacebookAlbum.h; sourceTree = "<group>"; };
-		77EED84A1D38FD2E00A38E04 /* CSFFacebookAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFFacebookAlbum.m; sourceTree = "<group>"; };
 		77EED84B1D38FD2E00A38E04 /* CSFFacebookPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFFacebookPhoto.h; sourceTree = "<group>"; };
 		77EED84C1D38FD2E00A38E04 /* CSFFacebookPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFFacebookPhoto.m; sourceTree = "<group>"; };
 		77EED84D1D38FD2E00A38E04 /* CSFFacebookPhotoImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFFacebookPhotoImage.h; sourceTree = "<group>"; };
@@ -718,8 +718,8 @@
 		77EED8481D38FD2E00A38E04 /* FacebookModels */ = {
 			isa = PBXGroup;
 			children = (
-				77EED8491D38FD2E00A38E04 /* CSFFacebookAlbum.h */,
-				77EED84A1D38FD2E00A38E04 /* CSFFacebookAlbum.m */,
+				005C127520E6907E00096FC2 /* CSFFacebookAlbum.h */,
+				005C127620E6907F00096FC2 /* CSFFacebookAlbum.m */,
 				77EED84B1D38FD2E00A38E04 /* CSFFacebookPhoto.h */,
 				77EED84C1D38FD2E00A38E04 /* CSFFacebookPhoto.m */,
 				77EED84D1D38FD2E00A38E04 /* CSFFacebookPhotoImage.h */,
@@ -933,9 +933,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PixPic/Pods-PixPic-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFDropdownNotification/AFDropdownNotification.framework",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
-				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
+				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
@@ -944,6 +945,7 @@
 				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
 				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
 				"${BUILT_PRODUCTS_DIR}/ParseFacebookUtilsV4/ParseFacebookUtilsV4.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SVPullToRefresh/SVPullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
 				"${BUILT_PRODUCTS_DIR}/XCGLogger/XCGLogger.framework",
@@ -951,9 +953,10 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFDropdownNotification.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
@@ -962,6 +965,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ParseFacebookUtilsV4.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVPullToRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCGLogger.framework",
@@ -1035,7 +1039,6 @@
 				7774D8D31D0EC50700E5DCE0 /* Sticker.swift in Sources */,
 				77EED85E1D38FD2F00A38E04 /* TDIRoundNavigationButton.m in Sources */,
 				7774D91F1D0EC50700E5DCE0 /* PostAdapter.swift in Sources */,
-				77EED85B1D38FD2F00A38E04 /* CSFFacebookAlbum.m in Sources */,
 				77EED85A1D38FD2F00A38E04 /* CSFFacebookExpandedAlbumCollectionViewController.m in Sources */,
 				7774D8D11D0EC50700E5DCE0 /* Complaint.swift in Sources */,
 				77F00C9D1D6ED6550055FEC0 /* StickersPickerLayoutAnimator.swift in Sources */,
@@ -1047,6 +1050,7 @@
 				7774D92A1D0EC50700E5DCE0 /* UICollectionViewFlowLayout.swift in Sources */,
 				7774D8F91D0EC50700E5DCE0 /* StickersModel.swift in Sources */,
 				7774D9151D0EC50700E5DCE0 /* ServiceLocator.swift in Sources */,
+				005C127720E6907F00096FC2 /* CSFFacebookAlbum.m in Sources */,
 				77EED85D1D38FD2F00A38E04 /* CSFFacebookPhotoImage.m in Sources */,
 				7774D93C1D0EC50700E5DCE0 /* CellInterface.swift in Sources */,
 				7774D92B1D0EC50700E5DCE0 /* UIColor+BaseColor.swift in Sources */,
@@ -1246,21 +1250,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sergiy Fesenko (Y8JZQ7JQ9A)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/PixPic/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yalantis.PIxPic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demo.qh;
 				PRODUCT_NAME = PixPic;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1279,21 +1280,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Sergiy Fesenko (R7JGNRV2SS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/PixPic/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yalantis.PIxPic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demo.qh;
 				PRODUCT_NAME = PixPic;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

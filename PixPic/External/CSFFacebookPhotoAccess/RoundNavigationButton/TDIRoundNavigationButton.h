@@ -10,7 +10,7 @@
 @interface TDIRoundNavigationButton : UIView
 
 @property (nonatomic,strong) NSString *imageName;
-@property (nonatomic, copy) void (^navigationButtonCallBack)();
+@property (nonatomic, copy) void (^navigationButtonCallBack)(void);
 
 -(void)rotateToOpenState;
 -(void)rotateToCloseState;

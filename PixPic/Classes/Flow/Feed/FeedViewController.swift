@@ -226,6 +226,12 @@
     @IBAction func presentSettings(_ sender: AnyObject) {
         router.showSettings()
     }
+    
+    @objc private func noConnection() {
+        ExceptionHandler.handle(Exception.NoConnection)
+        self.tableView.pullToRefreshView.stopAnimating()
+    }
+        
 
     // MARK: - UserInteractive
     fileprivate func setupLoadersCallback() {
@@ -234,26 +240,26 @@
             guard let this = self else {
                 return
             }
-            let noConnection = {
-                ExceptionHandler.handle(Exception.NoConnection)
-                this.tableView.pullToRefreshView.stopAnimating()
-
-                return
-            }
-            if #available(iOS 10.0, *) {
-                var timeoutTimer = Timer.scheduledTimer(withTimeInterval: Constants.Network.timeoutTimeInterval, repeats: false) {_ in 
-                    noConnection()
-                }
-            } else {
-                // Fallback on earlier versions
-            }
+//            let noConnection = {
+//                ExceptionHandler.handle(Exception.NoConnection)
+//                this.tableView.pullToRefreshView.stopAnimating()
+//
+//                return
+//            }
+            
+//            var timeoutTimer = Timer.scheduledTimer(withTimeInterval: Constants.Network.timeoutTimeInterval, repeats: false) {_ in
+//                noConnection()
+//            }
+        
+        
+            let timeoutTimer = Timer.scheduledTimer(timeInterval: Constants.Network.timeoutTimeInterval, target: this, selector: #selector(this.noConnection), userInfo: nil, repeats: false)
 
             guard ReachabilityHelper.isReachable() else {
-                noConnection()
+                this.noConnection()
 
                 return
             }
-            postService.loadPosts { objects, error in
+            postService.loadPosts { [weak timeoutTimer] objects, error in
                 timeoutTimer?.invalidate()
                 timeoutTimer = nil
                 if let objects = objects {

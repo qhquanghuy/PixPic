@@ -17,7 +17,7 @@ class BorderView: UIView {
 
         let dash: Array<CGFloat> = [4.0, 2.0]
 //        CGContextSetLineDash(context, 0.0, dash, 2)
-        context?.setLineDash(phase: 0, lengths: [2, 2])
+        context?.setLineDash(phase: 0, lengths: dash)
 
         context?.setStrokeColor(UIColor.white.cgColor)
 
